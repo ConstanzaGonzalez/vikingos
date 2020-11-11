@@ -1,0 +1,40 @@
+import vikingos.*
+import expedicion.*
+
+describe "Armar expediciones"{
+	test "Un vikingo con casta jarl y con armas no puede subir a un expecion" {
+		const vikingo = new Soldado(vidasCobradas =  30, castaSocial = jarl, cantidadArmas = 1)
+		const expedicion = new Expedicion()
+		assert.throwsException({ expedicion.subirVikingo(vikingo)})
+	
+	}
+	test "Un vikingo con casta karl y productivo puede subir a una expedicion" {
+		const vikingo = new Soldado(vidasCobradas =  30, castaSocial = karl, cantidadArmas = 1)
+		const expedicion = new Expedicion()
+		expedicion.subirVikingo(vikingo)
+		assert.equals(expedicion.vikingos(), [vikingo])
+	}	
+}
+describe "Expediciones que valen la pena"{
+	test "Una expedicion vale la pena cuando la cantidad de defensores derrotados es grande" {
+		const vikingoSoldado = new Soldado(vidasCobradas =  30, castaSocial = jarl, cantidadArmas = 0)
+		const vikingoGranjero = new Granjero(cantidadHijos =  2, castaSocial = karl, cantidadHectareas = 4)
+		const vikingoSoldado1 = new Soldado(vidasCobradas =  30, castaSocial = jarl, cantidadArmas = 0)
+		const vikingoGranjero1 = new Granjero(cantidadHijos =  2, castaSocial = karl, cantidadHectareas = 4)
+		const capital = new Capital(defensores = 14)
+		const expedicion = new Expedicion(vikingos = [vikingoSoldado, vikingoGranjero, vikingoSoldado1, vikingoGranjero1], invasiones = [capital])
+	
+		assert.that(expedicion.valeLaPena())
+	
+	}	
+}
+
+describe "Los Vikingos pueden cambiar de casta social"{
+	test "Un vikingo puede cambiar de casta social karl a thrall" {
+		const vikingo = new Soldado(vidasCobradas =  30, castaSocial = karl, cantidadArmas = 0)
+		vikingo.castaSocial(thrall)
+	
+		assert.equals(vikingo.castaSocial(), thrall)
+	
+	}	
+}
